@@ -8,15 +8,29 @@ import java.util.Queue;
 import java.util.stream.Stream;
 
 public class ImplicitReader implements SubcommandReader {
+
+    /**
+     * Parses arguments and constructs a map containing their values.
+     * @param args argument queue
+     * @param parsers map of parsers to use for each argument
+     * @return map of arguments and their values
+     * @throws ParseException if any of the arguments cannot be parsed
+     */
     @Override
-    public ArgumentMap readArguments(Queue<String> args, Map<String, ParameterParser<?>> parsers) throws ParseException {
-        ArgumentMap argmap = new ArgumentMap();
+    public ParameterMap readArguments(Queue<String> args, Map<String, ParameterParser<?>> parsers) throws ParseException {
+        ParameterMap argmap = new ParameterMap();
         parsers.entrySet().stream()
                 .map(e -> new ResultPair(e.getKey(), args.isEmpty() ? e.getValue().defaultValue() : e.getValue().parse(args.remove())))
                 .forEachOrdered(rp -> argmap.add(rp.arg, rp.value));
         return argmap;
     }
 
+    /**
+     * Provides completions for the last argument in queue
+     * @param args argument queue
+     * @param parsers map of parsers to use for each argument
+     * @return possible completions
+     */
     @Override
     public Stream<String> completer(Queue<String> args, Map<String, ParameterParser<?>> parsers) {
         if (args.size() > parsers.size() || args.size() < 1) {
@@ -29,7 +43,7 @@ public class ImplicitReader implements SubcommandReader {
                 .orElse(Stream.empty());
     }
 
-    private class ResultPair {
+    private static class ResultPair {
         public final String arg;
         public final Object value;
 

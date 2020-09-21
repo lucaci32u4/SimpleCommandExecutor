@@ -10,16 +10,16 @@ import java.util.stream.Stream;
 public interface SubcommandReader {
     /**
      * Read argument list and parse into argument map
-     * @param args argument list
+     * @param args argument queue
      * @param parsers map of parsers to use for each argument
-     * @return argument map
+     * @return map of arguments and their values
      * @throws ParseException if the arguments cannot be parsed
      */
-    ArgumentMap readArguments(Queue<String> args, Map<String, ParameterParser<?>> parsers) throws ParseException;
+    ParameterMap readArguments(Queue<String> args, Map<String, ParameterParser<?>> parsers) throws ParseException;
 
     /**
      * Read argument list and provide completion for last argument
-     * @param args argument list
+     * @param args argument queue
      * @param parsers map of parsers to use for each argument
      * @return possible completions
      */

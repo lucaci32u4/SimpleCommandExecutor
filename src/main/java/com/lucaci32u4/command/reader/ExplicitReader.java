@@ -10,9 +10,17 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 public class ExplicitReader implements SubcommandReader {
+
+    /**
+     * Parses arguments and constructs a map containing their values.
+     * @param args argument queue
+     * @param parsers map of parsers to use for each argument
+     * @return map of arguments and their values
+     * @throws ParseException if any of the arguments cannot be parsed
+     */
     @Override
-    public ArgumentMap readArguments(Queue<String> args, Map<String, ParameterParser<?>> parsers) throws ParseException {
-        ArgumentMap argmap = new ArgumentMap();
+    public ParameterMap readArguments(Queue<String> args, Map<String, ParameterParser<?>> parsers) throws ParseException {
+        ParameterMap argmap = new ParameterMap();
         while (!args.isEmpty()) {
             String name = args.remove();
             if (args.isEmpty()) {
@@ -29,6 +37,12 @@ public class ExplicitReader implements SubcommandReader {
         return argmap;
     }
 
+    /**
+     * Provides completions for the last argument in queue
+     * @param args argument queue
+     * @param parsers map of parsers to use for each argument
+     * @return possible completions
+     */
     @Override
     public Stream<String> completer(Queue<String> args, Map<String, ParameterParser<?>> parsers) {
         Set<String> existingParameters = new HashSet<>();
