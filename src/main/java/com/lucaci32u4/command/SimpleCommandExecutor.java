@@ -10,6 +10,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
 import java.util.*;
@@ -95,7 +96,8 @@ public class SimpleCommandExecutor implements CommandExecutor, TabCompleter {
      * @param args argument queue
      * @return stream of subcommands name
      */
-    private Stream<String> findSubcommand(Queue<String> args) {
+    @NotNull
+    private Stream<String> findSubcommand(@NotNull Queue<String> args) {
         Stream<String> options = Stream.empty();
         try {
             String candidate = args.remove();
@@ -106,7 +108,8 @@ public class SimpleCommandExecutor implements CommandExecutor, TabCompleter {
         return options;
     }
 
-    public Queue<String> makeArgumentQueue(String[] rawArgs) {
+    @NotNull
+    private Queue<String> makeArgumentQueue(@NotNull String[] rawArgs) {
         return Arrays.stream(rawArgs).map(String::toLowerCase).collect(Collectors.toCollection(LinkedList::new));
     }
 
@@ -115,7 +118,7 @@ public class SimpleCommandExecutor implements CommandExecutor, TabCompleter {
      * @param handler Handler object
      * @param clazz Handler class object, used for extracting annotated methods
      */
-    public <T> void setHandler(T handler, Class<T> clazz) {
+    public <T> void setHandler(@NotNull T handler, @NotNull Class<T> clazz) {
         Map<String, BiConsumer<CommandSender, ParameterMap>> handlers = new HashMap<>();
         for (Method method : clazz.getMethods()) {
             SubcommandHandler sch = method.getAnnotation(SubcommandHandler.class);
@@ -143,6 +146,7 @@ public class SimpleCommandExecutor implements CommandExecutor, TabCompleter {
      * Build a new command
      * @return command builder
      */
+    @NotNull
     public static CommandBuilder build() {
         return new CommandBuilder();
     }

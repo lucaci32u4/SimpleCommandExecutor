@@ -2,6 +2,7 @@ package com.lucaci32u4.command.reader;
 
 import com.lucaci32u4.command.ParseException;
 import com.lucaci32u4.command.parser.ParameterParser;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 import java.util.Queue;
@@ -17,7 +18,7 @@ public class ImplicitReader implements SubcommandReader {
      * @throws ParseException if any of the arguments cannot be parsed
      */
     @Override
-    public ParameterMap readArguments(Queue<String> args, Map<String, ParameterParser<?>> parsers) throws ParseException {
+    public @NotNull ParameterMap readArguments(@NotNull Queue<String> args, @NotNull Map<String, ParameterParser<?>> parsers) throws ParseException {
         ParameterMap argmap = new ParameterMap();
         parsers.entrySet().stream()
                 .map(e -> new ResultPair(e.getKey(), args.isEmpty() ? e.getValue().defaultValue() : e.getValue().parse(args.remove())))
@@ -32,7 +33,7 @@ public class ImplicitReader implements SubcommandReader {
      * @return possible completions
      */
     @Override
-    public Stream<String> completer(Queue<String> args, Map<String, ParameterParser<?>> parsers) {
+    public @NotNull Stream<String> completer(@NotNull Queue<String> args, @NotNull Map<String, ParameterParser<?>> parsers) {
         if (args.size() > parsers.size() || args.size() < 1) {
             return Stream.empty();
         }

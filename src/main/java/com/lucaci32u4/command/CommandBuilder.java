@@ -1,5 +1,7 @@
 package com.lucaci32u4.command;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +16,8 @@ public class CommandBuilder {
      * @param name the name of this command
      * @return this
      */
-    public CommandBuilder name(String name) {
+    @NotNull
+    public CommandBuilder name(@NotNull String name) {
         this.name = name;
         return this;
     }
@@ -23,6 +26,7 @@ public class CommandBuilder {
      * Creates a subcommand and returns a reference to it
      * @return reference to created subcommand
      */
+    @NotNull
     public SubcommandBuilder subcommand() {
         SubcommandBuilder sub = new SubcommandBuilder(this);
         subcommands.add(sub);
@@ -33,6 +37,7 @@ public class CommandBuilder {
      * Finalize the command builder and return a constructed executor
      * @return command executor
      */
+    @NotNull
     public SimpleCommandExecutor endCommand() {
         return new SimpleCommandExecutor(this);
     }

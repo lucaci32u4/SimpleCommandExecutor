@@ -1,6 +1,8 @@
 package com.lucaci32u4.command.parser;
 
 import com.lucaci32u4.command.ParseException;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.stream.Stream;
 
@@ -11,12 +13,14 @@ public interface ParameterParser<T> {
      * @return object representatin of string
      * @throws ParseException if parsing cannot be done
      */
-    T parse(String str) throws ParseException;
+    @Nullable
+    T parse(@NotNull String str) throws ParseException;
 
     /**
      * Default value to be used when no user input is given
      * @return the default value
      */
+    @Nullable
     T defaultValue();
 
     /**
@@ -24,5 +28,6 @@ public interface ParameterParser<T> {
      * @param partialString current text fragment
      * @return array of possible completions
      */
-    Stream<String> completer(String partialString);
+    @NotNull
+    Stream<String> completer(@NotNull String partialString);
 }
