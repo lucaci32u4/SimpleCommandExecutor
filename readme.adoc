@@ -1,0 +1,7 @@
+= SimpleCommandExecutor
+SimpleCommandExecutor is a simple API for declaring commands using a fluid builder pattern.
+
+== Demo
+
+== How to use
+
