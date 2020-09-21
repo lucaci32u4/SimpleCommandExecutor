@@ -6,7 +6,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ArgumentMap {
+public class ParameterMap {
     private final Map<String, Object> map = new HashMap<>();
 
     /**
@@ -31,7 +31,6 @@ public class ArgumentMap {
      * Get the value of a parameter and cast it to the desired class
      * @param name the parameter
      * @param classOrInterface the class to cast to
-     * @param <T>
      * @return casted value of the parameter, if it exists. Else null.
      */
     @Nullable

@@ -8,5 +8,9 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD})
 public @interface SubcommandHandler {
+    /**
+     * Specifies the subcommand name this method is linked to
+     * @return subcommand name
+     */
     String value() default "";
 }
