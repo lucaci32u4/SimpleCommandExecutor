@@ -2,6 +2,7 @@ package com.lucaci32u4.command.reader;
 
 import com.lucaci32u4.command.ParseException;
 import com.lucaci32u4.command.parser.ParameterParser;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 import java.util.Queue;
@@ -15,7 +16,8 @@ public interface SubcommandReader {
      * @return map of arguments and their values
      * @throws ParseException if the arguments cannot be parsed
      */
-    ParameterMap readArguments(Queue<String> args, Map<String, ParameterParser<?>> parsers) throws ParseException;
+    @NotNull
+    ParameterMap readArguments(@NotNull Queue<String> args, @NotNull Map<String, ParameterParser<?>> parsers) throws ParseException;
 
     /**
      * Read argument list and provide completion for last argument
@@ -23,5 +25,6 @@ public interface SubcommandReader {
      * @param parsers map of parsers to use for each argument
      * @return possible completions
      */
-    Stream<String> completer(Queue<String> args, Map<String, ParameterParser<?>> parsers);
+    @NotNull
+    Stream<String> completer(@NotNull Queue<String> args, @NotNull Map<String, ParameterParser<?>> parsers);
 }

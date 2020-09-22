@@ -2,6 +2,7 @@ package com.lucaci32u4.command.reader;
 
 import com.lucaci32u4.command.ParseException;
 import com.lucaci32u4.command.parser.ParameterParser;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -19,7 +20,7 @@ public class ExplicitReader implements SubcommandReader {
      * @throws ParseException if any of the arguments cannot be parsed
      */
     @Override
-    public ParameterMap readArguments(Queue<String> args, Map<String, ParameterParser<?>> parsers) throws ParseException {
+    public @NotNull ParameterMap readArguments(@NotNull Queue<String> args, @NotNull Map<String, ParameterParser<?>> parsers) throws ParseException {
         ParameterMap argmap = new ParameterMap();
         while (!args.isEmpty()) {
             String name = args.remove();
@@ -44,7 +45,7 @@ public class ExplicitReader implements SubcommandReader {
      * @return possible completions
      */
     @Override
-    public Stream<String> completer(Queue<String> args, Map<String, ParameterParser<?>> parsers) {
+    public @NotNull Stream<String> completer(@NotNull Queue<String> args, @NotNull Map<String, ParameterParser<?>> parsers) {
         Set<String> existingParameters = new HashSet<>();
         while (args.size() > 2) {
             existingParameters.add(args.remove());

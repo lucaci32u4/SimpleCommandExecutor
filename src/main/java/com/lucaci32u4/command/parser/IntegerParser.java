@@ -1,6 +1,8 @@
 package com.lucaci32u4.command.parser;
 
 import com.lucaci32u4.command.ParseException;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
 import java.util.regex.Pattern;
@@ -17,7 +19,7 @@ public class IntegerParser implements ParameterParser<Integer> {
      * Constructs an integer parser with a default value
      * @param defaultValue
      */
-    public IntegerParser(Integer defaultValue) {
+    public IntegerParser(@Nullable Integer defaultValue) {
         this(defaultValue, IntStream::empty);
     }
 
@@ -26,7 +28,7 @@ public class IntegerParser implements ParameterParser<Integer> {
      * @param defaultValue
      * @param completions
      */
-    public IntegerParser(Integer defaultValue, Supplier<IntStream> completions) {
+    public IntegerParser(@Nullable Integer defaultValue, @NotNull Supplier<IntStream> completions) {
         this.defaultValue = defaultValue;
         this.completions = completions;
     }
@@ -38,7 +40,7 @@ public class IntegerParser implements ParameterParser<Integer> {
      * @throws ParseException if str does not represent and integer
      */
     @Override
-    public Integer parse(String str) throws ParseException {
+    public @Nullable Integer parse(@NotNull String str) throws ParseException {
         try {
             return Integer.valueOf(str);
         } catch (NumberFormatException nfex) {
@@ -61,7 +63,7 @@ public class IntegerParser implements ParameterParser<Integer> {
      * @return stream of possible completions
      */
     @Override
-    public Stream<String> completer(String partialString) {
+    public @NotNull Stream<String> completer(@NotNull String partialString) {
         if (partialString.matches(numberMatcher.pattern())) {
             return Stream.concat(
                     completions.get().mapToObj(Integer::toString).filter(s -> s.startsWith(partialString)),

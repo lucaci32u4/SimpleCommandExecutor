@@ -1,6 +1,7 @@
 package com.lucaci32u4.command;
 
 import com.lucaci32u4.command.parser.ParameterParser;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -9,9 +10,9 @@ public class SubcommandBuilder {
     private final CommandBuilder commandBuilder;
     protected final Map<String, ParameterParser<?>> params = new LinkedHashMap<>();
     protected boolean explicitParameters = true;
-    protected String name;
+    protected String name = "";
 
-    protected SubcommandBuilder(CommandBuilder commandBuilder) {
+    protected SubcommandBuilder(@NotNull CommandBuilder commandBuilder) {
         this.commandBuilder = commandBuilder;
     }
 
@@ -20,7 +21,8 @@ public class SubcommandBuilder {
      * @param name name
      * @return this
      */
-    public SubcommandBuilder name(String name) {
+    @NotNull
+    public SubcommandBuilder name(@NotNull String name) {
         this.name = name;
         return this;
     }
@@ -30,6 +32,7 @@ public class SubcommandBuilder {
      * @param enable true of explicit parameters are used, otherwise (for implicit parameters) false
      * @return this
      */
+    @NotNull
     public SubcommandBuilder explicitParameters(boolean enable) {
         explicitParameters = enable;
         return this;
@@ -41,7 +44,8 @@ public class SubcommandBuilder {
      * @param parser the parser to be used to parse and provie tab completion
      * @return this
      */
-    public SubcommandBuilder parameter(String name, ParameterParser<?> parser) {
+    @NotNull
+    public SubcommandBuilder parameter(@NotNull String name, @NotNull ParameterParser<?> parser) {
         params.put(name, parser);
         return this;
     }
@@ -50,6 +54,7 @@ public class SubcommandBuilder {
      * Finalize this subcommand and return to parent command builder
      * @return parent command builder
      */
+    @NotNull
     public CommandBuilder endSubcommand() {
         return commandBuilder;
     }
