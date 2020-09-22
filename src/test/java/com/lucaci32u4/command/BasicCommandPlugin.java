@@ -39,6 +39,10 @@ public class BasicCommandPlugin extends JavaPlugin {
     }
 
     private String printCommand(String cmdName, ParameterMap param) {
-        return "Received command '" + cmdName + "'\n";
+        StringBuilder s =  new StringBuilder();
+        s.append("Received command '" + cmdName + "'\n");
+        param.forEach((p, v) -> s.append("Parameter ").append(p).append(": ").append(v.toString()).append("\n"));
+        return s.toString();
+
     }
 }
