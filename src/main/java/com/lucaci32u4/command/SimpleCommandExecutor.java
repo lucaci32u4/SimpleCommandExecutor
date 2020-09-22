@@ -1,15 +1,13 @@
 package com.lucaci32u4.command;
 
-
 import com.lucaci32u4.command.parser.ParameterParser;
 import com.lucaci32u4.command.reader.ParameterMap;
 import com.lucaci32u4.command.reader.ExplicitReader;
 import com.lucaci32u4.command.reader.ImplicitReader;
 import com.lucaci32u4.command.reader.SubcommandReader;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
+import com.lucaci32u4.command.utils.Utils;
+import org.bukkit.command.*;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
@@ -22,6 +20,7 @@ public class SimpleCommandExecutor implements CommandExecutor, TabCompleter {
     private final Map<String, SubcommandReader> readers;
     private final Map<String, Map<String, ParameterParser<?>>> subcmd;
     private final String commandName;
+    private final String usage;
     private Map<String, BiConsumer<CommandSender, ParameterMap>> handlers;
 
     protected SimpleCommandExecutor(CommandBuilder builder) {
@@ -31,13 +30,18 @@ public class SimpleCommandExecutor implements CommandExecutor, TabCompleter {
         readers = builder.subcommands.stream().collect(Collectors.toMap(s -> s.name, s -> s.explicitParameters ? explicitReader : implicitReader));
         subcmd = builder.subcommands.stream().collect(Collectors.toMap(s -> s.name, s -> new LinkedHashMap<>(s.params)));
         handlers = Collections.emptyMap();
+        usage = builder.subcommands.stream().map(s -> s.name + " " + (s.explicitParameters
+                    ? s.params.keySet().stream().map(k -> k + " <>")
+                    : s.params.keySet().stream().map(k -> "<" + k + ">")
+                ).collect(Collectors.joining(" "))).map(s -> "        " + s)
+                .collect(Collectors.joining("\n", "Usage: /" + commandName + "\n", ""));
     }
 
     /**
      * Execute a command
      * @param commandSender sender
      * @param command command
-     * @param alias asias used
+     * @param alias alias used
      * @param rawArgs list of arguments
      * @return whether the command has executed successfully
      */
@@ -57,7 +61,7 @@ public class SimpleCommandExecutor implements CommandExecutor, TabCompleter {
                 }
                 return true;
             } catch (ParseException parseException) {
-                commandSender.sendMessage(parseException.getMessage());
+                commandSender.sendMessage(parseException.getMessage() + ".");
                 return false;
             }
         }
@@ -117,8 +121,9 @@ public class SimpleCommandExecutor implements CommandExecutor, TabCompleter {
      * Set the handler (consumer) for successful commands sent
      * @param handler Handler object
      * @param clazz Handler class object, used for extracting annotated methods
+     * @return this
      */
-    public <T> void setHandler(@NotNull T handler, @NotNull Class<T> clazz) {
+    public <T> @NotNull SimpleCommandExecutor setHandler(@NotNull T handler, @NotNull Class<T> clazz) {
         Map<String, BiConsumer<CommandSender, ParameterMap>> handlers = new HashMap<>();
         for (Method method : clazz.getMethods()) {
             SubcommandHandler sch = method.getAnnotation(SubcommandHandler.class);
@@ -131,7 +136,7 @@ public class SimpleCommandExecutor implements CommandExecutor, TabCompleter {
                                 try {
                                     method.invoke(handler, snd, arg);
                                 } catch (Exception e) {
-                                    throw new IllegalStateException("Command handler exception", e);
+                                    throw new IllegalStateException("Command handler error", e);
                                 }
                             });
                         }
@@ -140,6 +145,29 @@ public class SimpleCommandExecutor implements CommandExecutor, TabCompleter {
             }
         }
         this.handlers = handlers;
+        return this;
+    }
+
+    /**
+     * Automatically set itself as executor for this command and overwrite the usage string
+     * @param plugin auto-set
+     * @param overwriteUsage whether to overwrite the usage string
+     * @return this
+     */
+    public @NotNull SimpleCommandExecutor selfInstall(@NotNull JavaPlugin plugin, boolean overwriteUsage) {
+        PluginCommand cmd = plugin.getCommand(commandName);
+        if (cmd == null) {
+            throw new CommandRegisterException("Command '" + commandName + "' not found");
+        }
+        cmd.setExecutor(this);
+        if (overwriteUsage) {
+            cmd.setUsage(usage);
+        }
+        return this;
+    }
+
+    public @NotNull String getUsage() {
+        return usage;
     }
 
     /**
@@ -152,5 +180,9 @@ public class SimpleCommandExecutor implements CommandExecutor, TabCompleter {
     }
 
 
-
+    public static class CommandRegisterException extends RuntimeException {
+        public CommandRegisterException(String message) {
+            super(message);
+        }
+    }
 }
