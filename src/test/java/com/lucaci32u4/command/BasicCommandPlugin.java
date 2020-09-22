@@ -14,7 +14,7 @@ import java.util.stream.Stream;
 public class BasicCommandPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
-        SimpleCommandExecutor executor = SimpleCommandExecutor.build().name("shape").subcommand()
+        SimpleCommandExecutor.build().name("shape").subcommand()
                 .name("sphere").explicitParameters(true)
                 .parameter("--radius", new IntegerParser(1, () -> IntStream.range(1, 10).map(i -> i * 10)))
                 .parameter("--density", new DoubleParser(1.0))
@@ -23,8 +23,9 @@ public class BasicCommandPlugin extends JavaPlugin {
                 .parameter("--size", new IntegerParser(1, () -> IntStream.rangeClosed(1, 10)))
                 .parameter("--fill", new BooleanParser(true, "fill", "empty"))
                 .parameter("--color", new EnumParser("none", () -> Stream.of("red", "blue", "green", "yellow", "none")))
-                .endSubcommand().endCommand();
-        executor.setHandler(this, BasicCommandPlugin.class);
+                .endSubcommand().endCommand()
+                .setHandler(this, BasicCommandPlugin.class)
+                .selfInstall(this, true);
     }
 
     @SubcommandHandler("sphere")
