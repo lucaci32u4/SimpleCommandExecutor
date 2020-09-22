@@ -30,18 +30,11 @@ public class SimpleCommandExecutor implements CommandExecutor, TabCompleter {
         readers = builder.subcommands.stream().collect(Collectors.toMap(s -> s.name, s -> s.explicitParameters ? explicitReader : implicitReader));
         subcmd = builder.subcommands.stream().collect(Collectors.toMap(s -> s.name, s -> new LinkedHashMap<>(s.params)));
         handlers = Collections.emptyMap();
-        List<String> usageLines = new ArrayList<>(builder.subcommands.size());
-        usageLines.set(0, "/" + commandName + " ");
-        StringBuilder spacing = new StringBuilder();
-        for (int i = 0; i < usageLines.get(0).length(); i++) spacing.append(" ");
-        for (int i = 1; i < builder.subcommands.size(); i++) {
-            usageLines.set(i, spacing.toString());
-        }
-        Stream<String> subcommandUsages = builder.subcommands.stream().map(s -> s.name + " " + (s.explicitParameters
-                ? s.params.keySet().stream().map(k -> k + " <>")
-                : s.params.keySet().stream().map(k -> "<" + k + ">")
-        ).collect(Collectors.joining()));
-        usage = Utils.zipStreams(usageLines.stream(), subcommandUsages, (cmd, sub) -> cmd + sub).collect(Collectors.joining("\n"));
+        usage = builder.subcommands.stream().map(s -> s.name + " " + (s.explicitParameters
+                    ? s.params.keySet().stream().map(k -> k + " <>")
+                    : s.params.keySet().stream().map(k -> "<" + k + ">")
+                ).collect(Collectors.joining(" "))).map(s -> "        " + s)
+                .collect(Collectors.joining("\n", "Usage: /" + commandName + "\n", ""));
     }
 
     /**

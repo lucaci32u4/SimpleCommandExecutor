@@ -16,13 +16,13 @@ public class BasicCommandPlugin extends JavaPlugin {
     public void onEnable() {
         SimpleCommandExecutor.build().name("shape").subcommand()
                 .name("sphere").explicitParameters(true)
-                .parameter("--radius", new IntegerParser(1, () -> IntStream.range(1, 10).map(i -> i * 10)))
-                .parameter("--density", new DoubleParser(1.0))
+                .parameter("-radius", new IntegerParser(1, () -> IntStream.range(1, 10).map(i -> i * 10)))
+                .parameter("-density", new DoubleParser(1.0))
                 .endSubcommand().subcommand()
                 .name("cube").explicitParameters(false)
-                .parameter("--size", new IntegerParser(1, () -> IntStream.rangeClosed(1, 10)))
-                .parameter("--fill", new BooleanParser(true, "fill", "empty"))
-                .parameter("--color", new EnumParser("none", () -> Stream.of("red", "blue", "green", "yellow", "none")))
+                .parameter("size", new IntegerParser(1, () -> IntStream.rangeClosed(1, 10)))
+                .parameter("fill", new BooleanParser(true, "fill", "empty"))
+                .parameter("color", new EnumParser("none", () -> Stream.of("red", "blue", "green", "yellow", "none")))
                 .endSubcommand().endCommand()
                 .setHandler(this, BasicCommandPlugin.class)
                 .selfInstall(this, true);
