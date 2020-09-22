@@ -1,7 +1,14 @@
 = SimpleCommandExecutor
-SimpleCommandExecutor is a simple API for declaring commands using a fluid builder pattern.
+
+SimpleCommandExecutor is a simple API for declaring commands using a fluid builder pattern. +
+
+This project is best suited for commands with advanced functionality, especially those that use subcommands
+
+
 
 == Demo
+
+image::docs/demo.gif[]
 
 == How to use
 
