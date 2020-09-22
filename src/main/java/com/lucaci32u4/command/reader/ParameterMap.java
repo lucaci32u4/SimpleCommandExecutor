@@ -5,6 +5,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.BiConsumer;
 
 public class ParameterMap {
     private final Map<String, Object> map = new HashMap<>();
@@ -42,5 +43,13 @@ public class ParameterMap {
             }
         }
         return null;
+    }
+
+    /**
+     * Iterate all parameters
+     * @param consumer consumer for pairs of parameter name and value
+     */
+    public void forEach(@NotNull BiConsumer<String, Object> consumer) {
+        map.forEach(consumer);
     }
 }
