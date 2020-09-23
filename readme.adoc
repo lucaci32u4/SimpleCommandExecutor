@@ -1,5 +1,6 @@
 = SimpleCommandExecutor
 :icons: font
+:backend: html5
 
 SimpleCommandExecutor is a simple API for declaring commands using a fluid builder pattern. +
 
@@ -10,6 +11,8 @@ This project is best suited for commands with advanced functionality, especially
 image::docs/demo.gif[]
 
 == How to use
+
+=== Defining a command
 
 To define a command, we need to know the following:
 * Command name
@@ -52,6 +55,8 @@ public class BasicCommandPlugin extends JavaPlugin {
 <6> List parameters for the second subcommand
 <7> End the second subcommand
 <8> End the command builder
+
+== Activating the command
 
 Now we need to set a handler to receive command executions. For simplicity of this example, we are going to use the plugin class as a handler. For each subcommand, we are going to use the `@SubcommandHandler("subcommand")` annotation.
 
