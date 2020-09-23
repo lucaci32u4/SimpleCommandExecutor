@@ -14,7 +14,8 @@ image::docs/demo.gif[]
 
 === Defining a command
 
-To define a command, we need to know the following:
+To define a command, we need to know the following: +
+
 * Command name
 * List of subcommands
 * List of arguments for each subcommand
@@ -56,7 +57,7 @@ public class BasicCommandPlugin extends JavaPlugin {
 <7> End the second subcommand
 <8> End the command builder
 
-== Activating the command
+=== Activating the command
 
 Now we need to set a handler to receive command executions. For simplicity of this example, we are going to use the plugin class as a handler. For each subcommand, we are going to use the `@SubcommandHandler("subcommand")` annotation.
 
