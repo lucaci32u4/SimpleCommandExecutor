@@ -1,4 +1,5 @@
 = SimpleCommandExecutor
+:icons: font
 
 SimpleCommandExecutor is a simple API for declaring commands using a fluid builder pattern. +
 
