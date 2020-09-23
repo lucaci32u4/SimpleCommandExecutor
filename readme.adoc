@@ -1,0 +1,110 @@
+= SimpleCommandExecutor
+:icons: font
+:backend: html5
+
+SimpleCommandExecutor is a simple API for declaring commands using a fluid builder pattern. +
+
+This project is best suited for commands with advanced functionality, especially those that use subcommands
+
+== Demo
+
+image::docs/demo.gif[]
+
+== How to use
+
+=== Defining a command
+
+To define a command, we need to know the following:
+* Command name
+* List of subcommands
+* List of arguments for each subcommand
+
+For this example, we'll use the `/shape` command with two subcommands: `sphere` and `cube`.
+
+First we need to create a builder for our command and give it a name. Then, we list the subcommands with their respective parameters.
+
+[source,java]
+----
+public class BasicCommandPlugin extends JavaPlugin {
+
+    @Override
+    public void onEnable() {
+        SimpleCommandExecutor executor = SimpleCommandExecutor.build().name("shape")
+                .subcommand() // <1>
+                .name("sphere") // <2>
+                .parameter("radius", new IntegerParser(1, () -> IntStream.range(1, 10))) // <3>
+                .parameter("density", new DoubleParser(1.0))
+                .endSubcommand().subcommand() // <4>
+                .name("cube") // <5>
+                .parameter("size", new IntegerParser(1, () -> IntStream.rangeClosed(1, 10))) // <6>
+                .parameter("fill", new BooleanParser(true, "fill", "empty"))
+                .parameter("color", new EnumParser("none",
+                    () -> Stream.of("red", "blue", "green", "yellow", "none")))
+                .endSubcommand() // <7>
+                .endCommand(); // <8>
+        // ...
+    }
+    // ...
+}
+----
+<1> Give the first subcommand a name
+<2> Set a name for the subcommand
+<3> List the subcommand's parameters
+<4> End the subcommand and start another
+<5> Set another name for the second subcommand
+<6> List parameters for the second subcommand
+<7> End the second subcommand
+<8> End the command builder
+
+== Activating the command
+
+Now we need to set a handler to receive command executions. For simplicity of this example, we are going to use the plugin class as a handler. For each subcommand, we are going to use the `@SubcommandHandler("subcommand")` annotation.
+
+The `selfInstall` method sets this executor for the server command and optionally overwrites the usage string.
+
+[source,java]
+----
+public class BasicCommandPlugin extends JavaPlugin {
+
+    @Override
+    public void onEnable() {
+        // ...
+        executor.setHandler(this, BasicCommandPlugin.class); // <1>
+        executor.selfInstall(this, true); // <2>
+    }
+
+    @SubcommandHandler("sphere") // <3>
+    public void onSphere(CommandSender sender, ParameterMap param) {
+        Integer radius = param.get("radius", Integer.class); // <4>
+        Double density = param.get("density", Double.class); // <5>
+        // Do something
+    }
+
+    @SubcommandHandler("cube") // <6>
+    public void onCube(CommandSender sender, ParameterMap param) {
+        // ...
+    }
+}
+----
+<1> Set the command handler
+<2> Call `selfInstall` to activate the handler
+<3> Annotate handler method for first subcommand
+<4> Get first parameter
+<5> Get second parameter
+<6> Annotate handler method for second subcommand
+
+== Parameters
+
+A paramter is defined by a name and a parser (interface `ParameterParser`). The parser defines the parameter's type, default value (in case the user omitted this parameter) and how it is parsed, including possible tab completions.
+
+Currently there are 5 parsers available:
+
+|===
+| Class name | Description | Generated type
+
+| `IntegerParser` | Parses an integer number | `java.lang.Integer`
+| `DoubleParser` | Parses a floating-point number | `java.lang.Double`
+| `BooleanParser` | Parses a boolean value, supports replacing 'true' and 'false' with any strings | `java.lang.Boolean`
+| `StringParser` | Reads a string argument | `java.lang.String`
+| `EnumParser` | Allows choice between a list of strings | `java.lang.String`
+|===
