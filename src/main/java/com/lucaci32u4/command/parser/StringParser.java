@@ -1,6 +1,8 @@
 package com.lucaci32u4.command.parser;
 
 import com.lucaci32u4.command.ParseException;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
 import java.util.stream.Stream;
@@ -11,19 +13,19 @@ public class StringParser implements  ParameterParser<String> {
 
     /**
      * Constructs a String parser with a default value and possible completions
-     * @param defaultValue
-     * @param completions
+     * @param defaultValue the default value
+     * @param completions possible completions
      */
-    public StringParser(String defaultValue, Supplier<Stream<String>> completions) {
+    public StringParser(@Nullable String defaultValue, @NotNull Supplier<Stream<String>> completions) {
         this.defaultValue = defaultValue;
         this.completions = completions;
     }
 
     /**
      * Constructs a String parser with a default value and po completions
-     * @param defaultValue
+     * @param defaultValue the default value
      */
-    public StringParser(String defaultValue) {
+    public StringParser(@Nullable String defaultValue) {
         this(defaultValue, Stream::empty);
     }
 
@@ -34,7 +36,7 @@ public class StringParser implements  ParameterParser<String> {
      * @throws ParseException never
      */
     @Override
-    public String parse(String str) throws ParseException {
+    public @Nullable String parse(@NotNull String str) throws ParseException {
         return str;
     }
 
@@ -53,7 +55,7 @@ public class StringParser implements  ParameterParser<String> {
      * @return possible completions
      */
     @Override
-    public Stream<String> completer(String partialString) {
+    public @NotNull Stream<String> completer(@NotNull String partialString) {
         return completions.get().filter(s -> s.startsWith(partialString));
     }
 }

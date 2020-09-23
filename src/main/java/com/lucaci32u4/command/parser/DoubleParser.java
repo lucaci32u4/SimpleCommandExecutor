@@ -1,6 +1,8 @@
 package com.lucaci32u4.command.parser;
 
 import com.lucaci32u4.command.ParseException;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
 import java.util.regex.Pattern;
@@ -16,7 +18,7 @@ public class DoubleParser implements ParameterParser<Double> {
      * Constructs a double parser with default value
      * @param defaultValue default value
      */
-    public DoubleParser(Double defaultValue) {
+    public DoubleParser(@Nullable Double defaultValue) {
         this(defaultValue, DoubleStream::empty);
     }
 
@@ -25,7 +27,7 @@ public class DoubleParser implements ParameterParser<Double> {
      * @param defaultValue default value
      * @param completions possible completions
      */
-    public DoubleParser(Double defaultValue, Supplier<DoubleStream> completions) {
+    public DoubleParser(@Nullable Double defaultValue, @NotNull Supplier<DoubleStream> completions) {
         this.defaultValue = defaultValue;
         this.completions = completions;
     }
@@ -37,7 +39,7 @@ public class DoubleParser implements ParameterParser<Double> {
      * @throws ParseException if the string does not represent a valid double
      */
     @Override
-    public Double parse(String str) throws ParseException {
+    public @Nullable Double parse(@NotNull String str) throws ParseException {
         try {
             return Double.valueOf(str);
         } catch (NumberFormatException nfex) {
@@ -50,7 +52,7 @@ public class DoubleParser implements ParameterParser<Double> {
      * @return the default value
      */
     @Override
-    public Double defaultValue() {
+    public @Nullable Double defaultValue() {
         return defaultValue;
     }
 
@@ -60,7 +62,7 @@ public class DoubleParser implements ParameterParser<Double> {
      * @return stream of possible completions
      */
     @Override
-    public Stream<String> completer(String partialString) {
+    public @NotNull Stream<String> completer(@NotNull String partialString) {
         return completions.get().mapToObj(Double::toString).filter(s -> s.startsWith(partialString));
     }
 }

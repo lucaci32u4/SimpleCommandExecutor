@@ -1,6 +1,8 @@
 package com.lucaci32u4.command.parser;
 
 import com.lucaci32u4.command.ParseException;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -13,7 +15,7 @@ public class EnumParser extends StringParser {
      * @param defaultValue default value
      * @param options possible options
      */
-    public EnumParser(String defaultValue, Supplier<Stream<String>> options) {
+    public EnumParser(@Nullable String defaultValue, @NotNull Supplier<Stream<String>> options) {
         super(defaultValue, options);
     }
 
@@ -24,7 +26,7 @@ public class EnumParser extends StringParser {
      * @throws ParseException if a match cannot be made
      */
     @Override
-    public String parse(String str) throws ParseException {
+    public @Nullable String parse(@NotNull String str) throws ParseException {
         return completions.get().filter(c -> c.equals(str))
                 .findFirst().orElseThrow(() -> new ParseException("'" + str + "' is not a valid value"));
     }
