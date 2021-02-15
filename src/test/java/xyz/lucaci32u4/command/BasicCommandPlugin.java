@@ -1,10 +1,10 @@
-package com.lucaci32u4.command;
+package xyz.lucaci32u4.command;
 
-import com.lucaci32u4.command.parser.BooleanParser;
-import com.lucaci32u4.command.parser.DoubleParser;
-import com.lucaci32u4.command.parser.EnumParser;
-import com.lucaci32u4.command.parser.IntegerParser;
-import com.lucaci32u4.command.reader.ParameterMap;
+import xyz.lucaci32u4.command.parser.BooleanParser;
+import xyz.lucaci32u4.command.parser.DoubleParser;
+import xyz.lucaci32u4.command.parser.EnumParser;
+import xyz.lucaci32u4.command.parser.IntegerParser;
+import xyz.lucaci32u4.command.reader.ParameterMap;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -40,9 +40,8 @@ public class BasicCommandPlugin extends JavaPlugin {
 
     private String printCommand(String cmdName, ParameterMap param) {
         StringBuilder s =  new StringBuilder();
-        s.append("Received command '" + cmdName + "'\n");
+        s.append("Received command '").append(cmdName).append("'\n");
         param.forEach((p, v) -> s.append("Parameter ").append(p).append(": ").append(v.toString()).append("\n"));
         return s.toString();
-
     }
 }

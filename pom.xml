@@ -7,7 +7,6 @@
     <groupId>com.lucaci32u4</groupId>
     <artifactId>simplecommandexecutor</artifactId>
     <version>0.2</version>
-
     <packaging>jar</packaging>
 
     <properties>
@@ -78,6 +77,12 @@
                     </execution>
                 </executions>
             </plugin>
+
         </plugins>
     </build>
+    <distributionManagement>
+        <repository>
+            <id>lucaci32u4.xyz</id>
+        </repository>
+    </distributionManagement>
 </project>

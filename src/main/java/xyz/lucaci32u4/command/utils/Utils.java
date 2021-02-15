@@ -1,4 +1,4 @@
-package com.lucaci32u4.command.utils;
+package xyz.lucaci32u4.command.utils;
 
 import org.jetbrains.annotations.NotNull;
 

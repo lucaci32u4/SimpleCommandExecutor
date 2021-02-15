@@ -1,8 +1,8 @@
 name: BasicCommandPlugin
 version: 0.0
 description: ''
-author: com.lucaci32u4
-main: com.lucaci32u4.command.BasicCommandPlugin
+author: xyz.lucaci32u4
+main: xyz.lucaci32u4.command.BasicCommandPlugin
 commands:
   shape:
     description: ''

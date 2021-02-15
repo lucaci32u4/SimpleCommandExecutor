@@ -1,11 +1,10 @@
-package com.lucaci32u4.command;
+package xyz.lucaci32u4.command;
 
-import com.lucaci32u4.command.parser.ParameterParser;
-import com.lucaci32u4.command.reader.ParameterMap;
-import com.lucaci32u4.command.reader.ExplicitReader;
-import com.lucaci32u4.command.reader.ImplicitReader;
-import com.lucaci32u4.command.reader.SubcommandReader;
-import com.lucaci32u4.command.utils.Utils;
+import xyz.lucaci32u4.command.parser.ParameterParser;
+import xyz.lucaci32u4.command.reader.ParameterMap;
+import xyz.lucaci32u4.command.reader.ExplicitReader;
+import xyz.lucaci32u4.command.reader.ImplicitReader;
+import xyz.lucaci32u4.command.reader.SubcommandReader;
 import org.bukkit.command.*;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
