@@ -1,6 +1,6 @@
-package com.lucaci32u4.command.parser;
+package xyz.lucaci32u4.command.parser;
 
-import com.lucaci32u4.command.ParseException;
+import xyz.lucaci32u4.command.ParseException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

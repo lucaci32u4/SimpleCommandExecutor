@@ -1,4 +1,4 @@
-package com.lucaci32u4.command;
+package xyz.lucaci32u4.command;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

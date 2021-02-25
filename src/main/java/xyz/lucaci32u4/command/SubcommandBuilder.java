@@ -1,6 +1,6 @@
-package com.lucaci32u4.command;
+package xyz.lucaci32u4.command;
 
-import com.lucaci32u4.command.parser.ParameterParser;
+import xyz.lucaci32u4.command.parser.ParameterParser;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedHashMap;

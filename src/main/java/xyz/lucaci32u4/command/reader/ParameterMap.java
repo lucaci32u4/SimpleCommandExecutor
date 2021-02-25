@@ -1,4 +1,4 @@
-package com.lucaci32u4.command.reader;
+package xyz.lucaci32u4.command.reader;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
